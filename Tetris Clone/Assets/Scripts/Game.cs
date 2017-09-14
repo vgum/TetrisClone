@@ -20,6 +20,7 @@ public class Game : MonoBehaviour {
     public static int currentScore = 0;
     public AudioSource audioSource;
     public AudioClip clearRows;
+    public static bool Mute = false;
 
 	// Use this for initialization
 	void Start () {
@@ -32,10 +33,19 @@ public class Game : MonoBehaviour {
         UpdateScore();
         UpdateUI();
         
-        if (Input.GetKey(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M))
         {
-            audioSource.mute = true;
-            Tetromino.audioSource.mute = true;
+            if(Mute)
+            {
+                Mute = false;
+                audioSource.mute = false;
+                Tetromino.audioSource.mute = false;
+            } else
+            {
+                Mute = true;
+                audioSource.mute = true;
+                Tetromino.audioSource.mute = true;
+            }
         }
         
 	}

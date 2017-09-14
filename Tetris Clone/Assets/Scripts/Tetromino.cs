@@ -18,12 +18,21 @@ public class Tetromino : MonoBehaviour {
     // Use this for initialization
 	void Start () {
         audioSource = GetComponent<AudioSource>();
-	}
+        if (Game.Mute) audioSource.mute = true;
+    }
 	
 	// Update is called once per frame
 	void Update () {
         CheckUserInput();
         UpdateIndividualScore();
+        //Mute
+        //if(Game.Mute)
+        //{
+         //   audioSource.mute = true;
+        //} else
+       // {
+        //    audioSource.mute = false;
+        //}
     }
 
     void UpdateIndividualScore()
@@ -165,7 +174,7 @@ public class Tetromino : MonoBehaviour {
                 FindObjectOfType<Game>().SpawnNextTetromino();
             }
             lastfall = Time.time;
-        }
+        } 
     }
 
     bool CheckIsValidPosition ()
