@@ -16,28 +16,23 @@ public class Tetromino : MonoBehaviour {
     public AudioClip landSound;
     public static AudioSource audioSource;
     // Use this for initialization
-	void Start () {
+    void Start() {
         audioSource = GetComponent<AudioSource>();
         if (Game.Mute) audioSource.mute = true;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
+#if UNITY_STANDALONE || UNITY_WEBPLAYER
         CheckUserInput();
         UpdateIndividualScore();
-        //Mute
-        //if(Game.Mute)
-        //{
-         //   audioSource.mute = true;
-        //} else
-       // {
-        //    audioSource.mute = false;
-        //}
+//#else
+#endif
     }
 
     void UpdateIndividualScore()
     {
-        if (livedTime <1)
+        if (livedTime < 1)
         {
             livedTime += Time.deltaTime;
         } else
@@ -51,7 +46,7 @@ public class Tetromino : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             transform.position += new Vector3(1, 0, 0);
-            if(CheckIsValidPosition())
+            if (CheckIsValidPosition())
             {
                 FindObjectOfType<Game>().UpdateGrid(this);
                 audioSource.PlayOneShot(moveSound);
@@ -104,7 +99,7 @@ public class Tetromino : MonoBehaviour {
                         {
                             transform.Rotate(0, 0, -90);
                         }
-                    }else
+                    } else
                     {
                         transform.Rotate(0, 0, 90);
                     }
@@ -116,7 +111,7 @@ public class Tetromino : MonoBehaviour {
             if (CheckIsValidPosition())
             {
                 FindObjectOfType<Game>().UpdateGrid(this);
-                if(Input.GetKey(KeyCode.DownArrow)) audioSource.PlayOneShot(moveSound);
+                if (Input.GetKey(KeyCode.DownArrow)) audioSource.PlayOneShot(moveSound);
             }
             else
             {
@@ -132,12 +127,12 @@ public class Tetromino : MonoBehaviour {
                 FindObjectOfType<Game>().SpawnNextTetromino();
             }
             lastfall = Time.time;
-        } else if(Input.GetKeyDown(KeyCode.Space))
+        } else if (Input.GetKeyDown(KeyCode.Space))
         {
             while (CheckIsValidPosition())
             {
                 transform.position += new Vector3(0, -1, 0);
-                if(CheckIsValidPosition()) FindObjectOfType<Game>().UpdateGrid(this);
+                if (CheckIsValidPosition()) FindObjectOfType<Game>().UpdateGrid(this);
             }
             transform.position += new Vector3(0, 1, 0);
             audioSource.PlayOneShot(moveSound);
@@ -158,7 +153,7 @@ public class Tetromino : MonoBehaviour {
             if (CheckIsValidPosition())
             {
                 FindObjectOfType<Game>().UpdateGrid(this);
-                if(Input.GetKey(KeyCode.DownArrow)) audioSource.PlayOneShot(moveSound);
+                if (Input.GetKey(KeyCode.DownArrow)) audioSource.PlayOneShot(moveSound);
             }
             else
             {
@@ -174,15 +169,15 @@ public class Tetromino : MonoBehaviour {
                 FindObjectOfType<Game>().SpawnNextTetromino();
             }
             lastfall = Time.time;
-        } 
+        }
     }
 
-    bool CheckIsValidPosition ()
+    bool CheckIsValidPosition()
     {
         foreach (Transform mino in transform)
         {
             Vector2 pos = FindObjectOfType<Game>().Round(mino.position);
-            if(FindObjectOfType<Game>().CheckInsideGrid(pos) == false)
+            if (FindObjectOfType<Game>().CheckInsideGrid(pos) == false)
             {
                 return false;
             }
